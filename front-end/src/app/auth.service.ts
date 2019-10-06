@@ -24,5 +24,21 @@ export class AuthService {
         .pipe(map(yearFact => {
             return yearFact;
         }));
-}
+  }
+
+  generateTokenService(email: string, name: string, password: string) {
+
+    return this.http.get<any>(`http://localhost:3000/generateToken?email=`+email+'&name='+name+'&password='+password)
+        .pipe(map(result => {
+            return result;
+        }));
+  }
+
+  verifyTokenService(token: string) {
+
+    return this.http.get<any>(`http://localhost:3000/verifyToken?token=`+token)
+        .pipe(map(data => {
+            return data;
+        }));
+  }
 }

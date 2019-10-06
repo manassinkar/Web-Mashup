@@ -3,6 +3,7 @@ let app = express();
 var request = require("request");
 var cors = require("cors");
 let bodyParser = require("body-parser");
+let jwt = require('jsonwebtoken');
 
 app.listen(3000,() => 
 {
@@ -79,6 +80,45 @@ app.get('/yearFact',(req,res) =>
             {
                 res.status(200).send(body);
             } 
+        }
+    });
+});
+
+app.get('/generateToken',(req,res) =>
+{
+    var email = req.query.email;
+    var name = req.query.name;
+    var password = req.query.password;
+    var x = {
+        email: email,
+        name: name,
+        password: password
+    }
+    jwt.sign(x,'someSecretKey',(err,token) =>
+    {
+        if(err)
+        {
+            res.status(401).send({ message: 'Error while generating JSON Web Token' });
+        }
+        else
+        {
+            res.status(200).send({ message: 'Token Generated', token: token })
+        }
+    });
+});
+
+app.get('/verifyToken',(req,res) =>
+{
+    var token = req.query.token;
+    jwt.verify(token,'someSecretKey',(err,data) =>
+    {
+        if(err)
+        {
+            res.status(401).send({ message: 'Error while verifying JSON Web Token' });
+        }
+        else
+        {
+            res.status(200).send({ message: 'Token verified', email: data.email, name: data.name, password: data.password });
         }
     });
 });

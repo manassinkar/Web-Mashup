@@ -13,11 +13,17 @@ export class AppComponent {
   title = 'front-end';
   public dateFactForm: FormGroup;
   public yearFactForm: FormGroup;
+  public generateTokenForm: FormGroup;
+  public verifyTokenForm: FormGroup;
   public dateFactYear:string="";
   public errmsgs:string="";
   public dateFact:string="";
   public yearFact:string="";
   public yearFactDate:string="";
+  public resultToken:string="";
+  public resultEmail:string="";
+  public resultName:string="";
+  public resultPassword:string="";
   constructor(private authservice: AuthService, private fb: FormBuilder, public router: Router) { }
 
   ngOnInit() {
@@ -25,8 +31,16 @@ export class AppComponent {
       day: [''],
       month: ['']
     });
+    this.generateTokenForm = this.fb.group({
+      email: [''],
+      name: [''],
+      password: ['']
+    });
     this.yearFactForm = this.fb.group({
       year: ['']
+    });
+    this.verifyTokenForm = this.fb.group({
+      token: ['']
     });
   }
 
@@ -40,6 +54,22 @@ export class AppComponent {
 
   public get year()  {
     return this.yearFactForm.controls.year;
+  }
+
+  public get token()  {
+    return this.verifyTokenForm.controls.token;
+  }
+
+  public get email()  {
+    return this.generateTokenForm.controls.email;
+  }
+
+  public get name()  {
+    return this.generateTokenForm.controls.name;
+  }
+
+  public get password()  {
+    return this.generateTokenForm.controls.password;
   }
   
   onSubmitDate() {
@@ -63,6 +93,36 @@ export class AppComponent {
         yearFact => {
           this.yearFact=yearFact.text;
           this.yearFactDate=yearFact.date;
+        },
+        error => {
+          console.log(error);
+          this.errmsgs=error.error.message;
+        }
+      );
+    }
+
+    onSubmitData() {
+      const email: string = this.generateTokenForm.get('email').value;
+      const name: string = this.generateTokenForm.get('name').value;
+      const password: string = this.generateTokenForm.get('password').value;
+      this.authservice.generateTokenService(email,name,password).subscribe(
+        result => {
+          this.resultToken=result.token;
+        },
+        error => {
+          console.log(error);
+          this.errmsgs=error.error.message;
+        }
+      );
+    }
+
+    onSubmitToken() {
+      const token: string = this.verifyTokenForm.get('token').value;
+      this.authservice.verifyTokenService(token).subscribe(
+        data => {
+          this.resultEmail=data.email;
+          this.resultName=data.name;
+          this.resultPassword=data.password;
         },
         error => {
           console.log(error);

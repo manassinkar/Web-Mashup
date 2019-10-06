@@ -29,6 +29,40 @@
   <br><br>
   <div *ngIf="yearFact"><h5>Fact: {{ yearFact }}</h5></div>
   <div *ngIf="yearFactDate"><h5>Date: {{ yearFactDate }}</h5></div>
+
+  <h2>Generate Token</h2>
+  <form [formGroup]="generateTokenForm" (ngSubmit)="onSubmitData()">
+    <div class="form-group">
+      <label for="email">Email: </label>
+      <input type="email" class="form-control" id="email" formControlName="email">
+      <label for="name">Name: </label>
+      <input type="text" class="form-control" id="name" formControlName="name">
+      <label for="password">Password: </label>
+      <input type="password" class="form-control" id="password" formControlName="password">
+    </div>
+    <div class="w-100" style="text-align: center">
+        <button type="submit" class="btn btn-primary float-left ml-5">Get Token</button>
+    </div>
+  </form>
+  <br><br>
+  <div *ngIf="resultToken"><h5>Token: {{ resultToken }}</h5></div>
+
+  <div *ngIf="resultToken">
+    <h2>Verify Token</h2>
+    <form [formGroup]="verifyTokenForm" (ngSubmit)="onSubmitToken()">
+      <div class="form-group">
+        <label for="token">Year: </label>
+        <input type="text" class="form-control" id="token" formControlName="token">
+      </div>
+      <div class="w-100" style="text-align: center">
+          <button type="submit" class="btn btn-primary float-left ml-5">Get Data</button>
+      </div>
+    </form>
+    <br><br>
+    <div *ngIf="resultEmail"><h5>Email: {{ resultEmail }}</h5></div>
+    <div *ngIf="resultName"><h5>Name: {{ resultName }}</h5></div>
+    <div *ngIf="resultPassword"><h5>Password: {{ resultPassword }}</h5></div>
+  </div>
 </div>
 
 <!-- <router-outlet></router-outlet> -->
