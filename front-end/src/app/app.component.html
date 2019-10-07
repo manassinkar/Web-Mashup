@@ -1,4 +1,5 @@
 <div class="container">
+  <h1>Web Mashup</h1><br>
   <h2>Get Fact by Date</h2>
   <form [formGroup]="dateFactForm" (ngSubmit)="onSubmitDate()">
     <div class="form-group">
@@ -12,7 +13,10 @@
     </div>
   </form>
   <br><br>
-  <div *ngIf="dateFact && dateFactYear"><h5>Fact: {{ dateFact }}, Year: {{ dateFactYear }}</h5></div>
+  <div *ngIf="dateFact && dateFactYear">
+    <h5>Fact: {{ dateFact }}, Year: {{ dateFactYear }}</h5>
+  </div>
+  <div *ngIf="errmsgsDate"><h5>Error: {{ errmsgsDate }}</h5></div>
   <br>
   <h4>OR</h4>
   <br>
@@ -29,7 +33,9 @@
   <br><br>
   <div *ngIf="yearFact"><h5>Fact: {{ yearFact }}</h5></div>
   <div *ngIf="yearFactDate"><h5>Date: {{ yearFactDate }}</h5></div>
-
+  <div *ngIf="errmsgsYear"><h5>Error: {{ errmsgsYear }}</h5></div>
+  <hr>
+  <h1>JSON Web Token</h1><br>
   <h2>Generate Token</h2>
   <form [formGroup]="generateTokenForm" (ngSubmit)="onSubmitData()">
     <div class="form-group">
@@ -45,13 +51,18 @@
     </div>
   </form>
   <br><br>
-  <div *ngIf="resultToken"><h5>Token: {{ resultToken }}</h5></div>
+  <div *ngIf="resultToken">
+    <h5>Token: </h5>
+    <textarea rows="2" cols="100" #text>{{ resultToken }}</textarea>
+    <button (click)="copy(text)" class="btn btn-primary ml-5">Copy Token</button>
+  </div>
+  <div *ngIf="errmsgsData"><h5>Error: {{ errmsgsData }}</h5></div>
 
   <div *ngIf="resultToken">
     <h2>Verify Token</h2>
     <form [formGroup]="verifyTokenForm" (ngSubmit)="onSubmitToken()">
       <div class="form-group">
-        <label for="token">Year: </label>
+        <label for="token">Token: </label>
         <input type="text" class="form-control" id="token" formControlName="token">
       </div>
       <div class="w-100" style="text-align: center">
@@ -62,6 +73,7 @@
     <div *ngIf="resultEmail"><h5>Email: {{ resultEmail }}</h5></div>
     <div *ngIf="resultName"><h5>Name: {{ resultName }}</h5></div>
     <div *ngIf="resultPassword"><h5>Password: {{ resultPassword }}</h5></div>
+    <div *ngIf="errmsgsToken"><h5>Error: {{ errmsgsToken }}</h5></div>
   </div>
 </div>
 

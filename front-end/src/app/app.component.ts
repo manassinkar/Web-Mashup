@@ -16,7 +16,10 @@ export class AppComponent {
   public generateTokenForm: FormGroup;
   public verifyTokenForm: FormGroup;
   public dateFactYear:string="";
-  public errmsgs:string="";
+  public errmsgsDate:string="";
+  public errmsgsYear:string="";
+  public errmsgsToken:string="";
+  public errmsgsData:string="";
   public dateFact:string="";
   public yearFact:string="";
   public yearFactDate:string="";
@@ -72,6 +75,12 @@ export class AppComponent {
     return this.generateTokenForm.controls.password;
   }
   
+  copy(inputElement){
+    inputElement.select();
+    document.execCommand('copy');
+    inputElement.setSelectionRange(0, 0);
+  }
+
   onSubmitDate() {
       const day: string = this.dateFactForm.get('day').value;
       const month: string = this.dateFactForm.get('month').value;
@@ -79,10 +88,12 @@ export class AppComponent {
         dateFact => {
           this.dateFact=dateFact.text;
           this.dateFactYear=dateFact.year;
+          this.errmsgsDate="";
         },
         error => {
-          console.log(error);
-          this.errmsgs=error.error.message;
+          this.errmsgsDate=error.error.message;
+          this.dateFact="";
+          this.dateFactYear="";
         }
       );
     }
@@ -93,10 +104,12 @@ export class AppComponent {
         yearFact => {
           this.yearFact=yearFact.text;
           this.yearFactDate=yearFact.date;
+          this.errmsgsYear="";
         },
         error => {
-          console.log(error);
-          this.errmsgs=error.error.message;
+          this.errmsgsYear=error.error.message;
+          this.yearFact="";
+          this.yearFactDate="";
         }
       );
     }
@@ -108,10 +121,11 @@ export class AppComponent {
       this.authservice.generateTokenService(email,name,password).subscribe(
         result => {
           this.resultToken=result.token;
+          this.errmsgsData="";
         },
         error => {
-          console.log(error);
-          this.errmsgs=error.error.message;
+          this.errmsgsData=error.error.message;
+          this.resultToken="";
         }
       );
     }
@@ -123,10 +137,13 @@ export class AppComponent {
           this.resultEmail=data.email;
           this.resultName=data.name;
           this.resultPassword=data.password;
+          this.errmsgsToken="";
         },
         error => {
-          console.log(error);
-          this.errmsgs=error.error.message;
+          this.errmsgsToken=error.error.message;
+          this.resultEmail="";
+          this.resultName="";
+          this.resultPassword="";
         }
       );
     }
